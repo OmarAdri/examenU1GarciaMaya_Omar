@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>datos</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    <h1 id="nombres"></h1>
+    <h2 id="apellidos"></h2>
+    <p id="correo"></p>
+    <p id="telefono"></p>
+    <p id="edad"></p>
+    <script>
+        var parameterList = new URLSearchParams(window.location.search);
+
+        var nombres = parameterList.get('Nombres');
+        var apellidos = parameterList.get('Apellidos');
+        var correo = parameterList.get('Correo');
+        var telefono = parameterList.get('Telefono');
+        var fechaNacimiento = new Date(parameterList.get('FechaNacimiento'));
+        var usuario = parameterList.get('Usuario');
+        var contraseña = parameterList.get('Contraseña');
+
+        document.getElementById('nombres').innerHTML = "Bienvenido(a) " + nombres;
+        document.getElementById('apellidos').innerHTML = "Tus apellidos: " + apellidos;
+        document.getElementById('correo').innerHTML = '<a href="mailto:' + correo + '">' + correo + '</a>';
+        document.getElementById('telefono').innerHTML = '<a href="tel:' + telefono + '">' + telefono + '</a>';
+
+        var edad = calcularEdad(fechaNacimiento);
+        document.getElementById('edad').innerHTML = 'Edad: ' + edad + ' años';
+
+        if (contraseña.length < 5) {
+            alert('Advertencia, Su contraseña es insegura.');
+        }
+
+        function calcularEdad(fechaNacimiento) {
+            var fechaActual = new Date();
+            var edad = fechaActual.getFullYear - fechaNacimiento.getFullYear();
+
+            var diferenciaMeses = fechaActual.getMonth() - fechaNacimiento.getMonth();
+            if (diferenciaMeses < 0 || (diferenciaMeses === 0 && fechaActual.getDate() < fechaNacimiento.getDate())) {
+                edad--;
+            }
+
+            return edad;
+        }
+    </script>
+</body>
+</html>
+
